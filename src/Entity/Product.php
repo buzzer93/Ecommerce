@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\CreatedAtTrait;
+use App\Entity\Trait\SlugTrait;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
+    use CreatedAtTrait;
+    use SlugTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -18,6 +23,8 @@ class Product
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -28,10 +35,6 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(options: [
-        'default' => 'CURRENT_TIMESTAMP'
-    ])]
-    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
@@ -53,6 +56,7 @@ class Product
     {
         $this->images = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
+        $this->created_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
