@@ -42,6 +42,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $resetToken = null;
+
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $LastName = null;
 
@@ -95,7 +99,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $Isverified): static
     {
         $this->isVerified = $Isverified;
-
         return $this;
     }
 
@@ -244,6 +247,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $order->setUser(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * Get the value of resetToken
+     *
+     * @return ?string
+     */
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * Set the value of resetToken
+     *
+     * @param ?string $resetToken
+     *
+     * @return self
+     */
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }
